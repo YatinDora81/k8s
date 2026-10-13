@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -6,6 +6,22 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  console.log(import.meta.env.VITE_BASE_URL);
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(`${import.meta.env.VITE_BASE_URL}/`)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    };
+
+    fetchData();
+    const intervalId = setInterval(fetchData, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
